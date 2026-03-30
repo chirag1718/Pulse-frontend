@@ -22,8 +22,10 @@
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/socket.io-client": "^1.4.36",
     "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.4.27",
     "eslint": "^9.39.4",
@@ -32,6 +34,7 @@
     "globals": "^17.4.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
     "vite": "^8.0.1"
   }
 }
