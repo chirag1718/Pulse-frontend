@@ -13,10 +13,7 @@ export default function Dashboard() {
     useEffect(() => {
         fetchVideos();
         const socket = connectSocket();
-
-        return () => {
-            socket.off();
-        };
+        return () => { socket.off(); };
     }, []);
 
     useEffect(() => {
@@ -25,17 +22,12 @@ export default function Dashboard() {
             if (video.status === "processing" || video.status === "uploading") {
                 socket.on(`progress:${video._id}`, ({ progress }: { progress: number }) => {
                     updateVideoProgress(video._id, progress);
-                    if (progress === 100) {
-                        fetchVideos();
-                    }
+                    if (progress === 100) fetchVideos();
                 });
             }
         });
-
         return () => {
-            videos.forEach((video) => {
-                socket.off(`progress:${video._id}`);
-            });
+            videos.forEach((video) => socket.off(`progress:${video._id}`));
         };
     }, [videos]);
 
@@ -44,41 +36,41 @@ export default function Dashboard() {
     );
 
     return (
-        <div className="max-w-7xl mx-auto px-6 py-8">
-            <div className="mb-8">
-                <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-                <p className="text-gray-400 text-sm mt-1">
-                    Welcome back, {user?.name}
-                </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+            <div className="mb-6 sm:mb-8">
+                <h1 className="text-xl sm:text-2xl font-bold text-white">Dashboard</h1>
+                <p className="text-gray-400 text-sm mt-1">Welcome back, {user?.name}</p>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 mb-8">
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm">Total Videos</p>
-                    <p className="text-3xl font-bold text-white mt-1">{videos.length}</p>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-5">
+                    <p className="text-gray-400 text-xs sm:text-sm">Total</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-white mt-1">{videos.length}</p>
                 </div>
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm">Safe Videos</p>
-                    <p className="text-3xl font-bold text-green-400 mt-1">
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-5">
+                    <p className="text-gray-400 text-xs sm:text-sm">Safe</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-green-400 mt-1">
                         {videos.filter((v) => v.status === "safe").length}
                     </p>
                 </div>
-                <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-                    <p className="text-gray-400 text-sm">Flagged Videos</p>
-                    <p className="text-3xl font-bold text-red-400 mt-1">
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-5">
+                    <p className="text-gray-400 text-xs sm:text-sm">Flagged</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-red-400 mt-1">
                         {videos.filter((v) => v.status === "flagged").length}
                     </p>
                 </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-8">
-                <div className="col-span-2 space-y-6">
+            {/* Main content */}
+            <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="lg:col-span-2 space-y-6">
                     {processingVideos.length > 0 && (
                         <div>
-                            <h2 className="text-lg font-semibold text-white mb-4">
+                            <h2 className="text-base sm:text-lg font-semibold text-white mb-4">
                                 Processing ({processingVideos.length})
                             </h2>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {processingVideos.map((video) => (
                                     <VideoCard key={video._id} video={video} />
                                 ))}
@@ -87,7 +79,7 @@ export default function Dashboard() {
                     )}
 
                     <div>
-                        <h2 className="text-lg font-semibold text-white mb-4">
+                        <h2 className="text-base sm:text-lg font-semibold text-white mb-4">
                             Recent Videos
                         </h2>
                         {videos.length === 0 ? (
@@ -96,7 +88,7 @@ export default function Dashboard() {
                                 <p>No videos yet</p>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {videos.slice(0, 6).map((video) => (
                                     <VideoCard key={video._id} video={video} />
                                 ))}
@@ -105,7 +97,7 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div>
+                <div className="order-first lg:order-last">
                     {canUpload ? (
                         <UploadZone />
                     ) : (
