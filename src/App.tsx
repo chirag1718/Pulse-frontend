@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Library from "./pages/Library";
 import Player from "./pages/Player";
+import Admin from "./pages/Admin";
 
 export default function App() {
   const { loadUser, token } = useAuthStore();
@@ -50,6 +51,17 @@ export default function App() {
               <>
                 <Navbar />
                 <Player />
+              </>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <>
+                <Navbar />
+                <Admin />
               </>
             </ProtectedRoute>
           }

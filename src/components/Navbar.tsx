@@ -22,6 +22,11 @@ export default function Navbar() {
                 <Link to="/library" className="text-sm text-gray-300 hover:text-white transition">
                     Library
                 </Link>
+                {user?.role === "admin" && (
+                    <Link to="/admin" className="text-sm text-gray-300 hover:text-white transition">
+                        Admin
+                    </Link>
+                )}
             </div>
             <div className="flex items-center gap-4">
                 <span className="text-sm text-gray-400">
